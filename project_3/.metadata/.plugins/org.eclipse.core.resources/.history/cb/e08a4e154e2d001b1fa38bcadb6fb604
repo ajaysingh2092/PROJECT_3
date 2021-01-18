@@ -1,0 +1,16 @@
+package in.co.rays.project_3.model;
+
+public abstract class ajay {
+	
+	private void tae() {
+		// TODO Auto-generated method stub
+
+	}
+	private abstract void tok();
+	
+	private void abcd() {
+		// TODO Auto-generated method stub
+
+	}
+
+}

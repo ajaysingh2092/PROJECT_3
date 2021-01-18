@@ -1,0 +1,46 @@
+package in.co.rays.project_3.test;
+
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import in.co.rays.project_3.dto.UserDTO;
+import in.co.rays.project_3.model.UserModelHibImp;
+import in.co.rays.project_3.model.UserModelInt;
+
+public class UserModelTest {
+
+	public static UserModelInt model = new UserModelHibImp();
+	
+	public static void main(String[] args) throws Exception {
+		addTest();
+	}
+	
+	public static void addTest() throws Exception {
+		// TODO Auto-generated method stub
+		// System.out.println("heellloooooo");
+		UserDTO dto = new UserDTO();
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+		
+		dto.setFirstName("ajay");
+		dto.setLastName("singh");
+		dto.setDob(sdf.parse("30-05-1995"));
+		dto.setConfirmPassword("ajay@123");
+		dto.setPassword("ajay@123");
+		dto.setLogin("ajay@gmail.com");
+		dto.setGender("male");
+		dto.setUnSuccessfullLogin(2);
+
+		dto.setCreatedBy("admin");
+		dto.setModifiedBy("admin");
+		dto.setRoleId(1);
+		dto.setMobileNo("9406653787");
+		dto.setRegisteredIP("ajay@gmail.com");
+		dto.setLoginIP("ajay@gmail.com");
+		dto.setLastLogin(new Timestamp(new Date().getTime()));
+		dto.setCreatedDatetime(new Timestamp(new Date().getTime()));
+		dto.setModifiedDatetime(new Timestamp(new Date().getTime()));
+		long pk = model.add(dto);
+		System.out.println(pk + "data successfully insert");
+	}
+}

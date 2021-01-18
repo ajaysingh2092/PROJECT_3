@@ -1,0 +1,31 @@
+<%@page import="in.co.rays.project_3.ctl.ORSView"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Welcome Title</title>
+<style scoped>
+.hm-gradient {
+	/* background-image: linear-gradient(to top, #f3e7e9 0%, #e3eeff 99%, #e3eeff 100%); */
+		background-image: url('img/b4.png');	
+		
+} 
+
+	</style>
+
+</head>
+<body class="hm-gradient">
+<div class="header" >
+<%@include file="Header.jsp" %>
+</div>
+<div class="text-cs1">
+<center><h1 style="padding-top: 19%;color:  #ff1a1a;"><b>Welcome to ORS</b></h1></center>
+</div>
+<div class="footer">
+<%@include file="Footer.jsp" %>
+</div>
+
+</body>
+</html>

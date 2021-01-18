@@ -1,0 +1,43 @@
+<%@page import="java.util.List"%>
+<%@page import="in.co.rays.project_3.util.HTMLUtility"%>
+<%@page import="in.co.rays.project_3.ctl.SubjectCtl"%>
+<%@page import="in.co.rays.project_3.util.DataUtility"%>
+<%@page import="in.co.rays.project_3.util.ServletUtility"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Subject View</title>
+<link href="<%=ORSView.APP_CONTEXT%>/css/main.css" rel="stylesheet" id="bootstrap-css">
+
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" 
+ rel="stylesheet" id="bootstrap-css">
+ <script src="maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+ <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+ <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.4.1/js/mdb.min.js"></script>
+ <style type="text/css">
+ .log1{
+ 	padding-top:5%;
+ }
+ .hm-gradient{
+ 	background-image:url('<%=ORSView.APP_CONTEXT%>/img/bg1.png');
+ }
+ i.css{
+ 	border:2px solid #8080803b;
+ 	padding-left:10px;
+ 	padding-bootom:7px;
+ 	background-color:ebebe0;
+ }
+ 
+ </style>
+</head>
+<body class="hm-gradients">
+	<div class="header">
+		<%@include file="Header.jsp" %>
+	</div>
+	
+
+</body>
+</html>

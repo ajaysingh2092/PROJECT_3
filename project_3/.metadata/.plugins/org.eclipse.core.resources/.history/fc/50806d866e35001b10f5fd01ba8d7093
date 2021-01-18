@@ -1,0 +1,9 @@
+package in.co.rays.project_3.ctl;
+
+import javax.servlet.annotation.WebServlet;
+
+@WebServlet(urlPatterns={"/UserRegistrationCtl"})
+public class UserRegistrationCtl {
+
+	public static final String OP_SIGN_UP = "SignUp";
+}

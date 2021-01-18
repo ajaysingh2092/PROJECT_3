@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+ <!--  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>jQuery UI Datepicker - Display month &amp; year menus</title>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script>
+  $( function() {
+    $( "#datepicker" ).datepicker({
+      changeMonth: true,
+      changeYear: true,
+      dateFormat:'dd/mm/yy'
+    });
+  } );
+  </script> -->
+  
+  <script type="text/javascript">
+  var ControlToSet;
+var f = document.f;
+var CalWidth = 180;
+var StartYear = "1970";
+var EndYear = "2030";
+var FormatAs;
+var NN4 = (navigator.appName.indexOf("Netscape") >= 0 && !document.getElementById) ? true
+        : false;
+var NN6 = (document.getElementById && navigator.appName.indexOf("Netscape") >= 0) ? true
+        : false;
+var TOP;
+var LEFT;
+
+if (NN4)
+    document.captureEvents(Event.MOUSEMOVE);
+
+document.onmousemove = LogPosition;
+
+function LogPosition(evt) {
+
+    if (NN4 || NN6) {
+        LEFT = evt.screenX;
+        TOP = evt.screenY - 10;
+    } else {
+        LEFT = event.screenX;
+        TOP = event.screenY - 10;
+    }
+
+}
+
+function getCalendar(CONTROL) {
+    showCalendar(CONTROL, 1950, 2050, 'mm/dd/yyyy');
+}
+
+function showCalendar(CONTROL, START_YEAR, END_YEAR, FORMAT) {
+
+    ControlToSet = eval(CONTROL);
+    StartYear = START_YEAR;
+    EndYear = END_YEAR;
+    FormatAs = FORMAT;
+
+    var strFeatures = "width=" + CalWidth + ",height=140" + ",left=" + LEFT
+            + ",top=" + TOP;
+    var CalWindow = window.open("../jsp/HTMLCalendar.htm", "Calendar",
+            strFeatures)
+    CalWindow.focus();
+} // End Function
+
+</script>
+  
+</head>
+<body>
+ 
+
+ 
+ 
+</body>
+</html>

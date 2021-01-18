@@ -1,0 +1,188 @@
+package in.co.rays.project_3.model;
+
+import java.util.List;
+
+import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
+
+import in.co.rays.project_3.dto.RoleDTO;
+import in.co.rays.project_3.exception.ApplicationException;
+import in.co.rays.project_3.exception.DuplicateRecordException;
+import in.co.rays.project_3.util.HibDataSource;
+
+public class RoleModelHibImp implements RoleModelInt{
+
+	Session session =HibDataSource.getSession();
+	Transaction tx=null;
+	
+	public long add(RoleDTO dto) throws ApplicationException, DuplicateRecordException {
+
+		long pk=0;
+		/*RoleDTO existDto = findByName(dto.getName());
+		System.out.println("role kjkjkjkj"+existDto);
+		if (existDto != null) {
+			throw new DuplicateRecordException("Role already exist");
+		}*/
+		try{
+			tx=session.beginTransaction();
+			session.save(dto);
+			tx.commit();
+			pk=dto.getId();
+		}catch(HibernateException e){
+			e.printStackTrace();
+			if(tx!=null){
+				tx.rollback();
+			}
+			throw new ApplicationException("Exception in Role Add " + e.getMessage());
+		}finally{
+			session.close();
+		}
+		return pk;
+	}
+
+	public void update(RoleDTO dto) throws ApplicationException {
+
+		try{
+			tx=session.beginTransaction();
+			session.update(dto);
+			tx.commit();
+		}catch(HibernateException e){
+			if(tx!=null){
+				tx.rollback();
+			}
+			throw new ApplicationException("Exception in update Role  " + e.getMessage());
+		}finally{
+			session.close();
+		}
+		
+	}
+
+	public void delete(RoleDTO dto) throws ApplicationException {
+
+		try{
+			tx=session.beginTransaction();
+			session.delete(dto);
+			tx.commit();
+		}catch(HibernateException e){
+			if(tx!=null){
+				tx.rollback();
+			}
+			throw new ApplicationException("Exception in delete Role " + e.getMessage());
+		}finally{
+			session.close();
+		}
+		
+	}
+
+	public RoleDTO findByPk(long pk) throws ApplicationException {
+
+		RoleDTO dto=null;
+		pk=0;
+		try{
+			dto=(RoleDTO) session.get(RoleDTO.class, pk);
+		}catch (HibernateException e) {
+
+			throw new ApplicationException("Exception : Exception in getting Role by pk");
+		} finally {
+			session.close();
+		}
+		return dto;
+	}
+
+	public RoleDTO findByName(String name) throws ApplicationException {
+
+		RoleDTO dto=null;
+		try{
+			Criteria criteria=session.createCriteria(RoleDTO.class);
+			criteria.add(Restrictions.eq("name", name));
+			List list=criteria.list();
+			if(list.size()>0){
+				dto=(RoleDTO) list.get(0);
+			}
+		}catch (HibernateException e) {
+
+			throw new ApplicationException("Exception in getting Role by Login " + e.getMessage());
+
+		} finally {
+			session.close();
+		}
+		return dto;
+	}
+
+	public List list() throws ApplicationException {
+		// TODO Auto-generated method stub
+		return list(0,0);
+	}
+
+	public List list(int pageNo, int pageSize) throws ApplicationException {
+		// TODO Auto-generated method stub
+		List list=null;
+		RoleDTO dto=new RoleDTO();
+		try{
+			Criteria criteria=session.createCriteria(RoleDTO.class);
+			if(pageSize>0){
+				criteria.setFirstResult(pageNo);
+				criteria.setMaxResults(pageSize);
+			}
+			list=criteria.list();
+			
+			System.out.println("Name "+list.toArray());
+		}catch (HibernateException e) {
+
+			throw new ApplicationException("Exception : Exception in  role list");
+		} finally {
+			session.close();
+		}
+		return list;
+	}
+
+	public List search(RoleDTO dto) throws ApplicationException {
+		// TODO Auto-generated method stub
+		
+		return search(dto,0,0);
+	}
+
+	public List search(RoleDTO dto, int pageNo, int pageSize) throws ApplicationException {
+		// TODO Auto-generated method stub
+		List list=null;
+		try{
+			Criteria criteria=session.createCriteria(RoleDTO.class);
+			
+			if(dto!=null){
+				if(dto.getId()>0){
+					criteria.add(Restrictions.eq("id", dto.getId()));
+				}
+				if(dto.getName()!=null&&dto.getName().length()>0){
+					criteria.add(Restrictions.eq("name", dto.getId()));
+				}
+				if(pageSize>0){
+					criteria.setFirstResult(pageNo);
+					criteria.setMaxResults(pageSize);
+				}
+				list=criteria.list();
+			 }
+			}catch (HibernateException e) {
+	            
+	            throw new ApplicationException("Exception in course search");
+	        } finally {
+	            session.close();
+	        }
+		return null;
+	}	
+
+	public static void main(String[] args) throws ApplicationException, DuplicateRecordException {
+		
+		
+		RoleModelHibImp r=new RoleModelHibImp();
+		RoleDTO dto=new RoleDTO();
+		
+		/*dto.setId((long) 2);
+		dto.setName("admin");
+		dto.setDescription("ajay");*/
+		
+		r.list();
+	}
+}

@@ -1,0 +1,51 @@
+package in.co.rays.project_3.ctl;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.log4j.Logger;
+
+import in.co.rays.project_3.util.DataValidator;
+import in.co.rays.project_3.util.PropertyReader;
+import javassist.SerialVersionUID;
+
+public class CollegeCtl extends  BaseCtl{
+
+	private static final long SerialVersionUID=1L;
+	
+	private static Logger log=Logger.getLogger(CollegeCtl.class);
+	
+	
+	@Override
+	protected boolean validate(HttpServletRequest request) {
+		// TODO Auto-generated method stub
+		
+		boolean pass=true;
+		if(DataValidator.isNull(request.getParameter("name"))){
+			request.setAttribute("name",PropertyReader.getValue("error", "Name"));
+			pass=false;
+		}if (DataValidator.isNull(request.getParameter("city"))) {
+			request.setAttribute("city", PropertyReader.getValue("error.require", "City"));
+			pass = false;
+		}
+		if (DataValidator.isNull(request.getParameter("state"))) {
+			request.setAttribute("state", PropertyReader.getValue("error.require", "State"));
+			pass = false;
+		}
+		if (DataValidator.isNull(request.getParameter("address"))) {
+			request.setAttribute("address", PropertyReader.getValue("error.require", "Address"));
+			pass = false;
+		}
+		if (DataValidator.isNull(request.getParameter("mobileNo"))) {
+			request.setAttribute("mobileNo", PropertyReader.getValue("error.require", "Mobile No"));
+			pass = false;
+		}
+		return pass;
+	}
+
+	
+	protected String getView() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

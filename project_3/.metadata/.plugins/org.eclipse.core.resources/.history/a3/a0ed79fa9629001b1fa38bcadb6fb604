@@ -1,0 +1,81 @@
+package in.co.rays.project_3.model;
+
+import java.util.List;
+
+import org.apache.log4j.Logger;
+
+import in.co.rays.project_3.dto.CollegeDTO;
+import in.co.rays.project_3.exception.ApplicationException;
+
+public class CollegeModelJDBCImp implements CollegeModelInt{
+
+	private static Logger log = Logger.getLogger(CollegeModelJDBCImp.class);
+	
+	public long nextPK() {
+		log.debug(" pk start");
+		Connection con = null;
+		long pk = 0;
+		try {
+			con = JDBCDataSource.getConnection();
+			PreparedStatement ps = con.prepareStatement("select max(id) from ST_COLLEGE");
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				pk = rs.getLong(1);
+			}
+		} catch (Exception e) {
+			log.error(e);
+			throw new DatabaseException("Database Exception" + e);
+
+		} finally {
+			JDBCDataSource.closeConnection(con);
+		}
+		log.debug(" pk is end");
+		return pk + 1;
+
+	
+	public long add(CollegeDTO dto) throws ApplicationException {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public void delete(CollegeDTO dto) throws ApplicationException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void update(CollegeDTO dto) throws ApplicationException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public CollegeDTO findByPK(long pk) throws ApplicationException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public CollegeDTO fingByName(String name) throws ApplicationException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List list() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List list(int pageNo, int pageSize) throws ApplicationException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List search(CollegeDTO dto) throws ApplicationException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List search(CollegeDTO dto, int pageNo, int pageSize) throws ApplicationException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

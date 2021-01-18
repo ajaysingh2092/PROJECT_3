@@ -1,0 +1,163 @@
+package in.co.rays.project_3.model;
+
+import java.util.List;
+
+import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
+
+import in.co.rays.project_3.dto.CollegeDTO;
+import in.co.rays.project_3.exception.ApplicationException;
+import in.co.rays.project_3.util.HibDataSource;
+
+public class CollegeModelHibImp implements CollegeModelInt{
+
+	
+	Session session=HibDataSource.getSession();
+	Transaction tx=null;
+	
+	public long add(CollegeDTO dto) throws ApplicationException {
+
+		
+		try{
+			tx=session.beginTransaction();
+			session.save(dto);
+			tx.commit();
+			
+		}catch(HibernateException e){
+			e.printStackTrace();
+			// TODO: handle exception
+			if (tx != null) {
+				tx.rollback();
+			}
+			throw new ApplicationException("Exception in course Add " + e.getMessage());
+		}finally{
+			session.close();
+		}
+		
+		return 0;
+	}
+
+	public void delete(CollegeDTO dto) throws ApplicationException {
+
+		try{
+			tx=session.beginTransaction();
+			session.delete(dto);
+			tx.commit();
+		}catch (HibernateException e) {
+			if (tx != null) {
+				tx.rollback();
+			}
+			throw new ApplicationException("Exception in college Delete" + e.getMessage());
+		} finally {
+			session.close();
+		}
+	}
+
+	public void update(CollegeDTO dto) throws ApplicationException {
+
+		try{
+			tx=session.beginTransaction();
+			session.update(dto);
+			tx.commit();
+		}catch (HibernateException e) {
+			e.printStackTrace();
+			if (tx != null) {
+				tx.rollback();
+			}
+			throw new ApplicationException("Exception in college update" + e.getMessage());
+		} finally {
+			session.close();
+		}
+	}
+
+	public CollegeDTO findByPK(long pk) throws ApplicationException {
+
+		CollegeDTO dto=null;
+		try{
+			dto = (CollegeDTO) session.get(CollegeDTO.class, pk);
+		}catch (HibernateException e) {
+
+			throw new ApplicationException("Exception : Exception in getting course by pk");
+		} finally {
+			session.close();
+		}
+		System.out.println("++++"+dto);
+		return dto;
+	}
+
+	public CollegeDTO fingByName(String name) throws ApplicationException {
+
+		CollegeDTO dto=null;
+		try{
+			Criteria criteria=session.createCriteria(CollegeDTO.class);
+			criteria.add(Restrictions.eq("name", name));
+			List list=criteria.list();
+			if(list.size()==1){
+				dto=(CollegeDTO)list.get(0);
+			}
+		}catch(HibernateException e){
+			throw new ApplicationException("Exception in getting User by Login " + e.getMessage());
+		}finally{
+			session.close();
+		}
+		return dto;
+	}
+
+	public List list() {
+
+		
+		return null;
+	}
+
+	public List list(int pageNo, int pageSize) throws ApplicationException {
+
+		List list=null;
+		try{
+			Criteria criteria=session.createCriteria(CollegeDTO.class);
+			
+			if(pageSize>0){
+				pageNo=(pageNo-1)*pageSize;
+				criteria.setFirstResult(pageNo);
+				criteria.setMaxResults(pageSize);
+			}
+			list=criteria.list();
+		}catch(HibernateException e){
+			throw new ApplicationException("Exception : Exception in College list");
+		}finally{
+			session.close();
+		}
+		
+		return list;
+	}
+
+	public List search(CollegeDTO dto) {
+		// TODO Auto-generated method stub
+		return search(dto,0,0);
+	}
+
+	public List search(CollegeDTO dto, int pageNo, int pageSize) {
+
+		List list=null;
+		try{
+			Criteria criteria=session.createCriteria(CollegeDTO.class);
+			if(dto!=null){
+			if(dto.getId()!=null){
+				criteria.add(Restrictions.eq("id", dto.getId()));
+			}
+			if(dto.getName()!=null && dto.getName().length()>0){
+				criteria.add(Restrictions.like("name", dto.getName()+"%"));
+			}
+		}
+		}catch()
+		return null;
+	}
+	
+	public static void main(String[] args) {
+		
+		
+	}
+	
+}

@@ -1,0 +1,143 @@
+package in.co.rays.project_3.model;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.List;
+
+import org.apache.log4j.Logger;
+
+import in.co.rays.project_3.dto.StudentDTO;
+import in.co.rays.project_3.exception.ApplicationException;
+import in.co.rays.project_3.exception.DataBaseException;
+import in.co.rays.project_3.exception.DuplicateRecordException;
+import in.co.rays.project_3.util.JDBCDataSource;
+
+public class StudentModelJDBCImp implements StudentModelInt{
+
+	public static Logger log=Logger.getLogger(StudentModelJDBCImp.class);
+	
+	public long pk() throws Exception{
+		
+		log.debug("Student pk start");
+		long pk=0;
+		Connection con=null;
+		
+		try{
+			con=JDBCDataSource.getConnection();
+		
+		PreparedStatement ps=con.prepareStatement("Select max(ID)from st_student");
+		ResultSet rs=ps.executeQuery();
+		while(rs.next()){
+			pk=rs.getLong(1);
+			
+		}
+		}catch(Exception e){
+			log.error(e);
+			throw new DataBaseException("Database Exception" + e);
+
+		}finally{
+			JDBCDataSource.closeConnection(con);
+		}
+		log.debug("student pk is end");
+		
+		return pk+1;
+		
+	}
+	
+	public long add(StudentDTO dto) throws ApplicationException, DuplicateRecordException {
+		
+		log.debug("add method of student model started");
+		Connection con=null;
+		long pk=0;
+		// get College Name
+		
+		  /* CollegeModelInt cModel = ModelFactory.getInstance().getCollegeModel(); 
+		     CollegeDTO collegeDTO = cModel.findByPK(dto.getCollegeId());
+		     dto.setCollegeName(collegeDTO.getName());*/
+		  
+		    
+		   StudentDTO duplicateName = findByEmailId(dto.getEmailId());
+		  
+		  
+		  if (duplicateName != null) { 
+			  throw new DuplicateRecordException("Email already exists"); 
+			  }
+		
+		
+		try{
+			con=JDBCDataSource.getConnection();
+			con.setAutoCommit(false);
+			PreparedStatement pstmt=con.prepareStatement("INSERT INTO ST_STUDENT VALUES(?,?,?,?,?,?,?,?,?,?,?,?)");
+			pstmt.setLong(1, pk);
+			pstmt.setString(2, dto.getFirstName());
+			pstmt.setString(3, dto.getLastName());
+			pstmt.setString(4, dto.getCollegeName());
+			pstmt.setDate(5, new java.sql.Date(dto.getDob().getTime()));
+			pstmt.setLong(6, dto.getCollegeId());
+			pstmt.setString(7, dto.getEmailId());
+			pstmt.setString(8, dto.getMobileNo());
+			pstmt.setString(9, dto.getCreatedBy());
+			pstmt.setString(10, dto.getModifiedBy());
+			pstmt.setTimestamp(11, dto.getCreatedDatetime());
+			pstmt.setTimestamp(12, dto.getModifiedDatetime());
+			pstmt.executeUpdate();
+			con.commit(); // End transaction
+			pstmt.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+			try {
+				con.rollback();
+			} catch (Exception ex) {
+				throw new ApplicationException("Exception : add rollback exception " + ex.getMessage());
+			}
+			throw new ApplicationException("Exception : Exception in add Student");
+		} finally {
+			JDBCDataSource.closeConnection(con);
+		}
+	
+		return pk;
+	}
+
+	public void delete(StudentDTO dto) throws ApplicationException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void update(StudentDTO dto) throws ApplicationException, DuplicateRecordException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public StudentDTO findByEmailId(String emailId) throws ApplicationException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public StudentDTO findByPK(long pk) throws ApplicationException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List list() throws ApplicationException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List list(int pageNo, int pageSize) throws ApplicationException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List search(StudentDTO dto) throws ApplicationException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List search(StudentDTO dto, int pageNo, int pageSize) throws ApplicationException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+
+}

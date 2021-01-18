@@ -1,0 +1,19 @@
+import java.util.List;
+
+import in.co.rays.project_3.dto.TimeTableDTO;
+
+public interface TimeTableModelInt {
+	
+	public long add(TimeTableDTO dto);
+	public void delete(TimeTableDTO dto);
+	public void update(TimeTableDTO dto);
+	public List list();
+	public List list(int pageNo,int pageSize);
+	public List search(TimeTableDTO dto);
+	public List search(TimeTableDTO dto,int pageNo,int pageSize);
+	public TimeTableDTO findByPk(long pk);
+	public TimeTableDTO checkByCourseName(long courseId,java.util.Date examDate);
+	public TimeTableDTO checkBySubjectName(long courseId,long subjectId,java.util.Date examDate);
+	public TimeTableDTO checkBySemester(long courseId,long subjectId,String semester,java.util.Date examDate);
+
+}

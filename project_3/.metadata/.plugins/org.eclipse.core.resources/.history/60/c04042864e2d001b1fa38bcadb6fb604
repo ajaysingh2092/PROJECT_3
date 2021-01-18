@@ -1,0 +1,13 @@
+package in.co.rays.project_3.model;
+
+public class vijay extends ajay {
+
+	@Override
+	public void tok() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
+
+}

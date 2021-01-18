@@ -1,0 +1,116 @@
+package in.co.rays.project_3.ctl;
+
+import java.io.IOException;
+import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import in.co.rays.project_3.dto.BaseDTO;
+import in.co.rays.project_3.exception.ApplicationException;
+import in.co.rays.project_3.model.CollegeModelInt;
+import in.co.rays.project_3.model.ModelFactory;
+import in.co.rays.project_3.util.DataUtility;
+import in.co.rays.project_3.util.DataValidator;
+import in.co.rays.project_3.util.PropertyReader;
+
+public class StudentCtl extends BaseCtl{
+
+	@Override
+	protected void preload(HttpServletRequest request) {
+		// TODO Auto-generated method stub
+		CollegeModelInt model =ModelFactory.getInstance().getCollegeModel() ;
+		try {
+			List l = model.list();
+			request.setAttribute("collegeList", l);
+		} catch (ApplicationException e) {
+			log.error(e);
+		}
+	
+	}
+	@Override
+	protected boolean validate(HttpServletRequest request) {
+		// TODO Auto-generated method stub
+		log.debug("StudentCtl Method validate Started");
+
+		boolean pass = true;
+
+		String op = DataUtility.getString(request.getParameter("operation"));
+		String email = request.getParameter("emailId");
+		String dob = request.getParameter("dob");
+
+		if (DataValidator.isNull(request.getParameter("firstName"))) {
+			request.setAttribute("firstName", PropertyReader.getValue("error.require", "First Name"));
+			pass = false;
+		} else if (!DataValidator.isName(request.getParameter("firstName"))) {
+			request.setAttribute("firstName", "please enter correct Name");
+			pass = false;
+
+		}
+		if (DataValidator.isNull(request.getParameter("lastName"))) {
+			request.setAttribute("lastName", PropertyReader.getValue("error.require", "Last Name"));
+			pass = false;
+		} else if (!DataValidator.isName(request.getParameter("lastName"))) {
+			request.setAttribute("lastName", "please enter correct Name");
+			pass = false;
+
+		}
+		if (DataValidator.isNull(request.getParameter("mobileNo"))) {
+			request.setAttribute("mobileNo", PropertyReader.getValue("error.require", "Mobile No"));
+			pass = false;
+		} else if (!DataValidator.isPhoneNo(request.getParameter("mobileNo"))) {
+			request.setAttribute("mobileNo", "Please Enter Valid Mobile Number");
+			pass = false;
+		}
+
+		if (DataValidator.isNull(email)) {
+			request.setAttribute("emailId", PropertyReader.getValue("error.require", "Email "));
+			pass = false;
+		} else if (!DataValidator.isEmail(email)) {
+			request.setAttribute("emailId", PropertyReader.getValue("error.email", "Email "));
+			pass = false;
+		}
+		if (DataValidator.isNull(request.getParameter("collegeId"))) {
+			request.setAttribute("collegeId", PropertyReader.getValue("error.require", "College Name"));
+			pass = false;
+		}
+		if (DataValidator.isNull(dob)) {
+			request.setAttribute("dob", PropertyReader.getValue("error.require", "Date Of Birth"));
+			pass = false;
+		} else if (!DataValidator.isDate(dob)) {
+			request.setAttribute("dob", PropertyReader.getValue("error.date", "Date Of Birth"));
+			pass = false;
+		} else if (!DataValidator.isValidAge(dob)) {
+			request.setAttribute("dob", "Age Must be greater then 18 year");
+			pass = false;
+		}
+
+		log.debug("StudentCtl Method validate Ended");
+
+		return pass;
+	}
+	@Override
+	protected BaseDTO populateDTO(HttpServletRequest request) {
+		// TODO Auto-generated method stub
+		return super.populateDTO(request);
+	}
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		super.doGet(req, resp);
+	}
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		super.doPost(req, resp);
+	}
+	
+	@Override
+	protected String getView() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+
+}

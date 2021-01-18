@@ -1,0 +1,22 @@
+package in.co.rays.project_3.model;
+
+import in.co.rays.project_3.dto.RoleDTO;
+import in.co.rays.project_3.exception.ApplicationException;
+
+public class RoleModelJDBCImp extends RoleModelHibImp{
+
+	@Override
+	public long add(RoleDTO dto) throws ApplicationException {
+		// TODO Auto-generated method stub
+		return super.add(dto);
+	}
+
+	@Override
+	public void delete(RoleDTO dto) throws ApplicationException {
+		// TODO Auto-generated method stub
+		super.delete(dto);
+	}
+	
+	
+
+}
