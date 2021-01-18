@@ -14,7 +14,7 @@ import in.co.rays.project_3.util.DataValidator;
 import in.co.rays.project_3.util.ServletUtility;
 
 /**
- * BBase controller class of project. It contain (1) Generic operations (2)
+ * Base controller class of project. It contain (1) Generic operations (2)
  * Generic constants (3) Generic work flow
  * @author ajay
  *
